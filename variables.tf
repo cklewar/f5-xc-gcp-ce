@@ -80,6 +80,11 @@ variable "machine_disk_size" {
   default = "40"
 }
 
+variable "gateway_type" {
+  type    = string
+  default = "ingress_egress_gateway"
+}
+
 variable "fleet_label" {
   type    = string
   default = "gcp-ce-test"
