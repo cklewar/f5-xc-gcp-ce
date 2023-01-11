@@ -15,6 +15,19 @@ variable "project_name" {
   default = "gcp-ce"
 }
 
+variable "f5xc_tenant" {
+  type = string
+}
+
+variable "f5xc_namespace" {
+  type    = string
+  default = "system"
+}
+
+variable "f5xc_api_token" {
+  type = string
+}
+
 variable "f5xc_api_p12_file" {
   type = string
 }
@@ -55,7 +68,7 @@ variable "cluster_longitude" {
   default = "-98.5795"
 }
 
-variable "fabric_subnet_public" {
+variable "fabric_subnet_outside" {
   type    = string
   default = "192.168.0.0/25"
 }
@@ -80,18 +93,18 @@ variable "machine_disk_size" {
   default = "40"
 }
 
-variable "gateway_type" {
+variable "f5xc_ce_gateway_type" {
   type    = string
   default = "ingress_egress_gateway"
 }
 
-variable "fleet_label" {
+variable "f5xc_fleet_label" {
   type    = string
   default = "gcp-ce-test"
 }
 
 locals {
-  cluster_labels = var.fleet_label != "" ? { "ves.io/fleet" = var.fleet_label } : {}
+  cluster_labels = var.f5xc_fleet_label != "" ? { "ves.io/fleet" = var.f5xc_fleet_label } : {}
 }
 
 provider "google" {
