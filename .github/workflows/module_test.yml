@@ -1,7 +1,7 @@
 name: F5XC GCP Cloud CE module
 on: workflow_dispatch
 jobs:
-  F5XC GCP Cloud CE-module-validate:
+ f5xc-gcp-cloud-ce-module-validate:
     runs-on: ubuntu-latest
     steps:
       - run: echo "The job was automatically triggered by a ${{github.event_name}} event."
@@ -47,9 +47,9 @@ jobs:
       - name: Terraform Validate
         id: validate
         run: terraform validate -no-color
-  F5XC GCP Cloud CE-module-plan:
+ f5xc-gcp-cloud-ce-module-plan:
     runs-on: ubuntu-latest
-    needs: [F5XC GCP Cloud CE-module-validate ]
+    needs: [f5xc-gcp-cloud-ce-module-validate ]
     steps:
       - run: echo "The job was automatically triggered by a ${{github.event_name}} event."
       - run: echo "This job is now running on a ${{ runner.os }} server hosted by GitHub."
@@ -107,9 +107,9 @@ jobs:
         run: |
           rm main.tf
       - run: echo "This job's status is ${{ job.status }}."
-  F5XC GCP Cloud CE-module-apply:
+ f5xc-gcp-cloud-ce-module-apply:
     runs-on: ubuntu-latest
-    needs: [F5XC GCP Cloud CE-module-plan ]
+    needs: [f5xc-gcp-cloud-ce-module-plan ]
     steps:
       - run: echo "The job was automatically triggered by a ${{github.event_name}} event."
       - run: echo "This job is now running on a ${{ runner.os }} server hosted by GitHub."
@@ -167,9 +167,9 @@ jobs:
         run: |
           rm main.tf
       - run: echo "This job's status is ${{ job.status }}."
-  F5XC GCP Cloud CE-module-destroy:
+ f5xc-gcp-cloud-ce-module-destroy:
     runs-on: ubuntu-latest
-    needs: [ F5XC GCP Cloud CE-module-apply ]
+    needs: [f5xc-gcp-cloud-ce-module-apply ]
     steps:
       - run: echo "The job was automatically triggered by a ${{github.event_name}} event."
       - run: echo "This job is now running on a ${{ runner.os }} server hosted by GitHub."
