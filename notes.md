@@ -34,10 +34,12 @@ terraform plan
 │    1: resource "google_compute_instance" "instance" {
   ```
 
-2.  MOdifications
+2.  Modifications
 
   - now with nat
-  - modify out
+  - modify no external ip
+  - terraform succeeds, but after the manual approve the site never registers successfully
+    - logs in __compute.log__
 
 __modules/f5xc/ce/gcp/main.tf__
 
