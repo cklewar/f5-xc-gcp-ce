@@ -104,10 +104,10 @@ locals {
 }
 
 provider "google" {
-  project     = var.gcp_project_id
-  region      = var.gcp_region
-  zone        = var.gcp_zone
-  alias       = "default"
+  project = var.gcp_project_id
+  region  = var.gcp_region
+  zone    = var.gcp_zone
+  alias   = "default"
 }
 
 provider "volterra" {
@@ -116,3 +116,13 @@ provider "volterra" {
   alias        = "default"
 }
 
+
+variable "gcp_compute_image" {
+  type    = string
+  default = "debian-cloud/debian-11"
+}
+
+variable "gcp_compute_type" {
+  type    = string
+  default = "e2-small"
+}
