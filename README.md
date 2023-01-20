@@ -84,7 +84,6 @@ output "ce" {
 }
 ````
 
-
 ## F5XC GCP Cloud CE Single NIC existing network module usage example
 
 ````hcl
