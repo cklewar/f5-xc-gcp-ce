@@ -43,11 +43,13 @@ variable "ssh_public_key_file" {
 variable "gcp_region" {
   type    = string
   default = "us-east1"
+  # default = "us-east4"
 }
 
 variable "gcp_zone" {
   type    = string
   default = "us-east1-b"
+  # default = "us-east4-b
 }
 
 variable "gcp_project_id" {
@@ -82,6 +84,10 @@ variable "machine_image" {
   type    = string
   default = "centos7-atomic-20220721105-single-voltmesh-us"
   # default = "centos7-atomic-20220721105-multi-voltmesh-us"
+  # default = "centos7-atomic-20220721105-single-voltmesh-eu"
+  # default = "centos7-atomic-20220721105-multi-voltmesh-eu"
+  # default = "centos7-atomic-20220721105-single-voltmesh-asia"
+  # default = "centos7-atomic-20220721105-multi-voltmesh-asia"
 }
 
 variable "machine_type" {
