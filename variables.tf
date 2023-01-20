@@ -80,8 +80,8 @@ variable "fabric_subnet_inside" {
 
 variable "machine_image" {
   type    = string
-  default = "centos7-atomic-20220721105-single-voltmesh"
-  # default = "centos7-atomic-20220721105-multi-voltmesh"
+  default = "centos7-atomic-20220721105-single"
+  # default = "centos7-atomic-20220721105-multi"
 }
 
 variable "machine_type" {
