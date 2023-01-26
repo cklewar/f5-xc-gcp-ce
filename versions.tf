@@ -8,17 +8,17 @@ terraform {
       name = "f5-xc-gcp-ce-module"
     }
   }
-
+  
   required_providers {
     volterra = {
-      source  = "volterraedge/volterra"
+      source = "volterraedge/volterra"
       version = "= 0.11.18"
     }
     google = {
-      source  = "hashicorp/google"
+      source = "hashicorp/google"
       version = ">= 4.48.0"
     }
     local = ">= 2.2.3"
-    null  = ">= 3.1.1"
+    null = ">= 3.1.1"
   }
 }
