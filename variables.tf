@@ -81,13 +81,34 @@ variable "fabric_subnet_inside" {
 }
 
 variable "machine_image" {
-  type    = string
-  default = "centos7-atomic-20220721105-single-voltmesh-us"
-  # default = "centos7-atomic-20220721105-multi-voltmesh-us"
-  # default = "centos7-atomic-20220721105-single-voltmesh-eu"
-  # default = "centos7-atomic-20220721105-multi-voltmesh-eu"
-  # default = "centos7-atomic-20220721105-single-voltmesh-asia"
-  # default = "centos7-atomic-20220721105-multi-voltmesh-asia"
+  type = object({
+    asia = object({
+      ingress_gateway        = string
+      ingress_egress_gateway = string
+    }),
+    us = object({
+      ingress_gateway        = string
+      ingress_egress_gateway = string
+    }),
+    eu = object({
+      ingress_gateway        = string
+      ingress_egress_gateway = string
+    })
+  })
+  default = {
+    asia = {
+      ingress_gateway        = "centos7-atomic-20220721105-single-voltmesh-asia"
+      ingress_egress_gateway = "centos7-atomic-20220721105-multi-voltmesh-asia"
+    },
+    us = {
+      ingress_gateway        = "centos7-atomic-20220721105-single-voltmesh-us"
+      ingress_egress_gateway = "centos7-atomic-20220721105-multi-voltmesh-us"
+    },
+    eu = {
+      ingress_gateway        = "centos7-atomic-20220721105-single-voltmesh-eu"
+      ingress_egress_gateway = "centos7-atomic-20220721105-multi-voltmesh-eu"
+    }
+  }
 }
 
 variable "machine_type" {
@@ -102,7 +123,8 @@ variable "machine_disk_size" {
 
 variable "f5xc_ce_gateway_type" {
   type    = string
-  default = "ingress_egress_gateway"
+  # default = "ingress_egress_gateway"
+  default = "ingress_gateway"
 }
 
 variable "f5xc_fleet_label" {
