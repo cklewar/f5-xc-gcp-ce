@@ -80,7 +80,7 @@ variable "fabric_subnet_inside" {
   default = "192.168.0.128/25"
 }
 
-variable "machine_image" {
+/*variable "machine_image" {
   type = object({
     asia = object({
       ingress_gateway        = string
@@ -109,6 +109,17 @@ variable "machine_image" {
       ingress_egress_gateway = "centos7-atomic-20220721105-multi-voltmesh-eu"
     }
   }
+}*/
+
+variable "machine_image" {
+  type = object({
+    ingress_gateway        = string
+    ingress_egress_gateway = string
+  })
+  default = {
+    ingress_gateway        = "centos7-atomic-20220721105-single-voltmesh"
+    ingress_egress_gateway = "centos7-atomic-20220721105-multi-voltmesh"
+  }
 }
 
 variable "machine_type" {
@@ -125,6 +136,16 @@ variable "f5xc_ce_gateway_type" {
   type    = string
   default = "ingress_egress_gateway"
   # default = "ingress_gateway"
+}
+
+variable "f5xc_ce_image_source_url" {
+  type    = string
+  default = "https://storage.googleapis.com/ves-images"
+}
+
+variable "f5xc_ce_image_file_name_suffix" {
+  type    = string
+  default = ".tar.gz"
 }
 
 variable "f5xc_fleet_label" {
