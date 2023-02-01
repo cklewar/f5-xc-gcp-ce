@@ -118,7 +118,10 @@ variable "machine_image" {
   })
   default = {
     ingress_gateway        = "centos7-atomic-20220721105-single-voltmesh"
-    ingress_egress_gateway = "centos7-atomic-20220721105-multi-voltmesh"
+    # ingress_egress_gateway = "centos7-atomic-20220721105-multi-voltmesh-davita"
+    # ingress_egress_gateway = "centos7-atomic-20220721105-multi-voltmesh-davita-from-public"
+    ingress_egress_gateway = "centos7-atomic-20220721105-multi-voltmesh-davita-from-s-team"
+    # ingress_egress_gateway = "centos7-atomic-202010061048-multi-voltmesh-davita"
   }
 }
 
