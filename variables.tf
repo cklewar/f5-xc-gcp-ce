@@ -123,8 +123,8 @@ variable "machine_disk_size" {
 
 variable "f5xc_ce_gateway_type" {
   type    = string
-  # default = "ingress_egress_gateway"
-  default = "ingress_gateway"
+  default = "ingress_egress_gateway"
+  # default = "ingress_gateway"
 }
 
 variable "f5xc_fleet_label" {
