@@ -80,7 +80,7 @@ variable "fabric_subnet_inside" {
   default = "192.168.0.128/25"
 }
 
-/*variable "machine_image" {
+variable "machine_image" {
   type = object({
     asia = object({
       ingress_gateway        = string
@@ -109,9 +109,9 @@ variable "fabric_subnet_inside" {
       ingress_egress_gateway = "centos7-atomic-20220721105-multi-voltmesh-eu"
     }
   }
-}*/
+}
 
-variable "machine_image" {
+/*variable "machine_image" {
   type = object({
     ingress_gateway        = string
     ingress_egress_gateway = string
@@ -123,7 +123,7 @@ variable "machine_image" {
     ingress_egress_gateway = "centos7-atomic-20220721105-multi-voltmesh-davita-from-s-team"
     # ingress_egress_gateway = "centos7-atomic-202010061048-multi-voltmesh-davita"
   }
-}
+}*/
 
 variable "machine_type" {
   type    = string
