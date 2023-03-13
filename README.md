@@ -159,7 +159,144 @@ output "gcp_ce_multi_nic_existing_vpc" {
 }
 ````
 
-## F5XC GCP Cloud CE Multi NIC existing VPC and Cloud NAT module usage example
+## F5XC GCP Secure Cloud CE Multi NIC existing VPC and Google Cloud NAT module usage example
+
+```hcl
+module "gcp_ce_multi_nic_existing_vpc" {
+  source                         = "./modules/f5xc/ce/gcp"
+  is_sensitive                   = false
+  gcp_region                     = var.gcp_region
+  machine_type                   = var.machine_type
+  ssh_username                   = "centos"
+  has_public_ip                  = false
+  machine_image                  = var.machine_image["us"][var.f5xc_ce_gateway_type]
+  instance_name                  = format("%s-%s-%s", var.project_prefix, var.project_name, var.project_suffix)
+  ssh_public_key                 = file(var.ssh_public_key_file)
+  machine_disk_size              = var.machine_disk_size
+  existing_fabric_subnet_outside = module.vpc_slo.subnets_ids[0]
+  existing_fabric_subnet_inside  = module.vpc_sli.subnets_ids[0]
+  f5xc_tenant                    = var.f5xc_tenant
+  f5xc_api_url                   = var.f5xc_api_url
+  f5xc_namespace                 = var.f5xc_namespace
+  f5xc_api_token                 = var.f5xc_api_token
+  f5xc_token_name                = format("%s-%s-%s", var.project_prefix, var.project_name, var.project_suffix)
+  f5xc_fleet_label               = var.f5xc_fleet_label
+  f5xc_cluster_latitude          = var.cluster_latitude
+  f5xc_cluster_longitude         = var.cluster_longitude
+  f5xc_ce_gateway_type           = var.f5xc_ce_gateway_type
+  f5xc_ce_slo_firewall           = {
+    rules = [
+      {
+        name        = "${var.project_prefix}-${var.project_name}-slo-allow-ingress-${var.gcp_region}-${var.project_suffix}"
+        priority    = 1000
+        description = "Allow SLO HTTPS and NAT-T"
+        direction   = "INGRESS"
+        target_tags = []
+        ranges      = ["0.0.0.0/0"]
+        allow       = [
+          {
+            protocol = "tcp"
+            ports    = ["443"]
+          },
+          {
+            protocol = "udp"
+            ports    = ["4500"]
+          }
+        ]
+        deny       = []
+        log_config = {
+          metadata = "INCLUDE_ALL_METADATA"
+        }
+      },
+      {
+        name        = "${var.project_prefix}-${var.project_name}-slo-allow-ingress-${var.gcp_region}-${var.project_suffix}"
+        priority    = 65534
+        description = "Allow SLO SSH and IAP"
+        direction   = "INGRESS"
+        ranges      = ["0.0.0.0/0"]
+        target_tags = []
+        allow       = [
+          {
+            protocol = "tcp"
+            ports    = ["22", "3389"]
+          }
+        ]
+        deny       = []
+        log_config = {
+          metadata = "INCLUDE_ALL_METADATA"
+        }
+      }
+    ]
+  }
+  f5xc_ce_sli_firewall = {
+    rules = [
+      {
+        name        = "${var.project_prefix}-${var.project_name}-sli-allow-egress-${var.gcp_region}-${var.project_suffix}"
+        priority    = 65534
+        description = "Allow SLI SSH"
+        direction   = "EGRESS"
+        ranges      = ["0.0.0.0/0"]
+        target_tags = []
+        allow       = [
+          {
+            protocol = "tcp"
+            ports    = ["22"]
+          }
+        ]
+        deny       = []
+        log_config = {
+          metadata = "INCLUDE_ALL_METADATA"
+        }
+      },
+      {
+        name        = "${var.project_prefix}-${var.project_name}-sli-allow-ingress-${var.gcp_region}-${var.project_suffix}"
+        priority    = 65534
+        description = "Allow SLI SSH"
+        direction   = "INGRESS"
+        ranges      = ["0.0.0.0/0"]
+        target_tags = []
+        allow       = [
+          {
+            protocol = "tcp"
+            ports    = ["22"]
+          }
+        ]
+        deny       = []
+        log_config = {
+          metadata = "INCLUDE_ALL_METADATA"
+        }
+      },
+      {
+        name        = "${var.project_prefix}-${var.project_name}-sli-deny-egress-${var.gcp_region}-${var.project_suffix}"
+        priority    = 65535
+        description = "deny all SLI"
+        direction   = "EGRESS"
+        ranges      = ["0.0.0.0/0"]
+        target_tags = []
+        allow       = []
+        deny        = [
+          {
+            protocol = "all"
+          }
+        ]
+        log_config = {
+          metadata = "INCLUDE_ALL_METADATA"
+        }
+      }
+    ]
+  }
+  providers = {
+    google   = google.default
+    volterra = volterra.default
+  } 
+}
+
+output "gcp_ce_multi_nic_existing_vpc" {
+  value = module.gcp_ce_multi_nic_existing_vpc.ce
+}
+```
+
+## F5XC GCP Cloud CE Multi NIC existing VPC and Google Cloud NAT module usage example
 
 ```hcl
 module "vpc_slo" {
@@ -262,12 +399,6 @@ module "nat" {
   # nat_ips                            = google_compute_address.nat.*.self_link # List of self_links of external IPs
   network                            = module.vpc_slo.network_name
 }
-
-/*resource "google_service_account" "service_account" {
-  account_id   = "${var.project_prefix}-f5xc-${var.project_name}-ce-${var.project_suffix}"
-  display_name = "F5 CE Service Account"
-  project      = var.gcp_project_id
-}*/
 
 module "gcp_ce_multi_nic_existing_vpc" {
   source                         = "./modules/f5xc/ce/gcp"
