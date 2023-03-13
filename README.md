@@ -140,7 +140,7 @@ module "gcp_ce_multi_nic_existing_vpc" {
   existing_fabric_subnet_outside = module.vpc_slo.subnets_ids[0]
   existing_fabric_subnet_inside  = module.vpc_sli.subnets_ids[0]
   f5xc_tenant                    = var.f5xc_tenant
-  f5xc_api_url                   = var.f5xc_api_url
+  f5xc_api_url                   = var.f5xc_api_urlterr
   f5xc_namespace                 = var.f5xc_namespace
   f5xc_api_token                 = var.f5xc_api_token
   f5xc_token_name                = format("%s-%s-%s", var.project_prefix, var.project_name, var.project_suffix)
