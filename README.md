@@ -162,30 +162,76 @@ output "gcp_ce_multi_nic_existing_vpc" {
 ## F5XC GCP Secure Cloud CE Multi NIC existing VPC and Google Cloud NAT module usage example
 
 ```hcl
+module "vpc_slo" {
+  source       = "terraform-google-modules/network/google"
+  mtu          = 1460
+  version      = "~> 6.0"
+  project_id   = var.gcp_project_id
+  network_name = "${var.project_prefix}-${var.project_name}-vpc-slo-${var.gcp_region}-${var.project_suffix}"
+  subnets      = [
+    {
+      subnet_name   = "${var.project_prefix}-${var.project_name}-slo-${var.gcp_region}-${var.project_suffix}"
+      subnet_ip     = "192.168.1.0/24"
+      subnet_region = var.gcp_region
+    }
+  ]
+}
+
+module "vpc_sli" {
+  source       = "terraform-google-modules/network/google"
+  version      = "~> 6.0"
+  project_id   = var.gcp_project_id
+  network_name = "${var.project_prefix}-${var.project_name}-vpc-sli-${var.gcp_region}-${var.project_suffix}"
+  mtu          = 1460
+  subnets      = [
+    {
+      subnet_name   = "${var.project_prefix}-${var.project_name}-sli-${var.gcp_region}-${var.project_suffix}"
+      subnet_ip     = "192.168.2.0/24"
+      subnet_region = var.gcp_region
+    }
+  ]
+  delete_default_internet_gateway_routes = true
+}
+
+module "nat" {
+  source                             = "terraform-google-modules/cloud-nat/google"
+  version                            = "~> 2.0"
+  project_id                         = var.gcp_project_id
+  region                             = var.gcp_region
+  router                             = "${var.project_prefix}-${var.project_name}-nat-router-${var.gcp_region}-${var.project_suffix}"
+  create_router                      = true
+  name                               = "${var.project_prefix}-${var.project_name}-nat-config-${var.gcp_region}-${var.project_suffix}"
+  source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
+  # nat_ip_allocate_option             = "MANUAL_ONLY" # "AUTO_ONLY"
+  # nat_ips                            = google_compute_address.nat.*.self_link
+  network                            = module.vpc_slo.network_name
+}
+
 module "gcp_secure_ce_multi_nic_existing_vpc" {
-  source                         = "./modules/f5xc/ce/gcp"
-  is_sensitive                   = false
-  gcp_region                     = var.gcp_region
-  machine_type                   = var.machine_type
-  ssh_username                   = "centos"
-  has_public_ip                  = false
-  machine_image                  = var.machine_image["us"][var.f5xc_ce_gateway_type]
-  instance_name                  = format("%s-%s-%s", var.project_prefix, var.project_name, var.project_suffix)
-  ssh_public_key                 = file(var.ssh_public_key_file)
-  machine_disk_size              = var.machine_disk_size
-  existing_fabric_subnet_outside = module.vpc_slo.subnets_ids[0]
-  existing_fabric_subnet_inside  = module.vpc_sli.subnets_ids[0]
-  f5xc_tenant                    = var.f5xc_tenant
-  f5xc_api_url                   = var.f5xc_api_url
-  f5xc_namespace                 = var.f5xc_namespace
-  f5xc_api_token                 = var.f5xc_api_token
-  f5xc_token_name                = format("%s-%s-%s", var.project_prefix, var.project_name, var.project_suffix)
-  f5xc_fleet_label               = var.f5xc_fleet_label
-  f5xc_cluster_latitude          = var.cluster_latitude
-  f5xc_cluster_longitude         = var.cluster_longitude
-  f5xc_ce_gateway_type           = var.f5xc_ce_gateway_type
-  f5xc_is_secure_cloud_ce        = true
-  providers                      = {
+  source                   = "./modules/f5xc/ce/gcp"
+  is_sensitive             = false
+  gcp_region               = var.gcp_region
+  project_name             = var.project_name
+  machine_type             = var.machine_type
+  ssh_username             = "centos"
+  has_public_ip            = false
+  machine_image            = var.machine_image["us"][var.f5xc_ce_gateway_type]
+  instance_name            = format("%s-%s-%s", var.project_prefix, var.project_name, var.project_suffix)
+  ssh_public_key           = file(var.ssh_public_key_file)
+  machine_disk_size        = var.machine_disk_size
+  existing_network_outside = module.vpc_slo
+  existing_network_inside  = module.vpc_sli
+  f5xc_tenant              = var.f5xc_tenant
+  f5xc_api_url             = var.f5xc_api_url
+  f5xc_namespace           = var.f5xc_namespace
+  f5xc_api_token           = var.f5xc_api_token
+  f5xc_token_name          = format("%s-%s-%s", var.project_prefix, var.project_name, var.project_suffix)
+  f5xc_fleet_label         = var.f5xc_fleet_label
+  f5xc_cluster_latitude    = var.cluster_latitude
+  f5xc_cluster_longitude   = var.cluster_longitude
+  f5xc_ce_gateway_type     = var.f5xc_ce_gateway_type
+  f5xc_is_secure_cloud_ce  = true
+  providers                = {
     google   = google.default
     volterra = volterra.default
   }
