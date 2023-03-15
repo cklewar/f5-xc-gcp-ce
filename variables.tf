@@ -111,19 +111,13 @@ variable "machine_image" {
   }
 }
 
-/*variable "machine_image" {
-  type = object({
-    ingress_gateway        = string
-    ingress_egress_gateway = string
-  })
-  default = {
-    ingress_gateway        = "centos7-atomic-20220721105-single-voltmesh"
-    # ingress_egress_gateway = "centos7-atomic-20220721105-multi-voltmesh-davita"
-    # ingress_egress_gateway = "centos7-atomic-20220721105-multi-voltmesh-davita-from-public"
-    ingress_egress_gateway = "centos7-atomic-20220721105-multi-voltmesh-davita-from-s-team"
-    # ingress_egress_gateway = "centos7-atomic-202010061048-multi-voltmesh-davita"
-  }
-}*/
+/*
+ ingress_gateway        = "centos7-atomic-20220721105-single-voltmesh"
+ ingress_egress_gateway = "centos7-atomic-20220721105-multi-voltmesh-davita"
+ ingress_egress_gateway = "centos7-atomic-20220721105-multi-voltmesh-davita-from-public"
+ ingress_egress_gateway = "centos7-atomic-20220721105-multi-voltmesh-davita-from-s-team"
+ ingress_egress_gateway = "centos7-atomic-202010061048-multi-voltmesh-davita"
+*/
 
 variable "machine_type" {
   type    = string
