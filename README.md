@@ -253,6 +253,40 @@ output "gcp_ce_multi_nic_existing_vpc" {
 ## F5XC GCP Cloud CE Multi NIC existing VPC and Google Cloud NAT module usage example
 
 ```hcl
+variable "f5xc_ves_images_base_url" {
+  type    = string
+  default = "https://storage.googleapis.com/ves-images"
+}
+
+variable "machine_image_name" {
+  type    = string
+  default = "centos7-atomic-20220721105-multi-voltmesh-custom"
+}
+
+variable "machine_image_base" {
+  type = object({
+    ingress_gateway        = string
+    ingress_egress_gateway = string
+  })
+  default = {
+    ingress_gateway        = "centos7-atomic-20220721105-single-voltmesh"
+    ingress_egress_gateway = "centos7-atomic-20220721105-multi-voltmesh"
+  }
+}
+
+resource "google_compute_image" "f5xc_ce" {
+  name    = local.f5xc_image_name
+  project = var.gcp_project_id
+  family  = var.machine_image_family
+
+  guest_os_features {
+    type = "MULTI_IP_SUBNET"
+  }
+  raw_disk {
+    source = format("%s/%s.tar.gz", var.f5xc_ves_images_base_url, var.machine_image_base[var.f5xc_ce_gateway_type])
+  }
+}
+
 module "vpc_slo" {
   source       = "terraform-google-modules/network/google"
   version      = "~> 6.0"
