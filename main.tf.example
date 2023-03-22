@@ -17,7 +17,7 @@ module "gcp_ce" {
   f5xc_fleet_label         = var.f5xc_fleet_label
   f5xc_cluster_latitude    = var.cluster_latitude
   f5xc_cluster_longitude   = var.cluster_longitude
-  f5xc_ce_gateway_type     = "ingress_gateway"
+  f5xc_ce_gateway_type     = var.f5xc_ce_gateway_type
   providers                = {
     google   = google.default
     volterra = volterra.default

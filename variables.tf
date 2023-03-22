@@ -25,8 +25,7 @@ variable "f5xc_namespace" {
 }
 
 variable "f5xc_api_token" {
-  type      = string
-  sensitive = true
+  type = string
 }
 
 variable "f5xc_api_p12_file" {
@@ -114,8 +113,8 @@ variable "machine_image_family" {
 
 variable "f5xc_ce_gateway_type" {
   type    = string
-  default = "ingress_egress_gateway"
-  # default = "ingress_gateway"
+  # default = "ingress_egress_gateway"
+  default = "ingress_gateway"
 }
 
 variable "f5xc_ce_image_source_url" {
