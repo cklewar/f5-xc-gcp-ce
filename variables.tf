@@ -82,7 +82,7 @@ variable "fabric_subnet_inside" {
 
 variable "machine_image_name" {
   type    = string
-  default = "centos7-atomic-20220721105-multi-voltmesh-custom"
+  default = "centos7-atomic-20220721105-single-voltmesh-custom"
 }
 
 variable "machine_image_base" {
@@ -91,8 +91,8 @@ variable "machine_image_base" {
     ingress_egress_gateway = string
   })
   default = {
-    ingress_gateway        = "centos7-atomic-20220721105-single-voltmesh"
-    ingress_egress_gateway = "centos7-atomic-20220721105-multi-voltmesh"
+    ingress_gateway        = "centos7-atomic-20220721105-single-voltmesh-us"
+    ingress_egress_gateway = "centos7-atomic-20220721105-multi-voltmesh-us"
   }
 }
 
