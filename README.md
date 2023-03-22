@@ -279,8 +279,11 @@ resource "google_compute_image" "f5xc_ce" {
   project = var.gcp_project_id
   family  = var.machine_image_family
 
-  guest_os_features {
-    type = "MULTI_IP_SUBNET"
+  dynamic "guest_os_features" {
+    for_each = var.f5xc_ce_gateway_type == "ingress_egress_gateway" ? [1] : []
+    content {
+      type = "MULTI_IP_SUBNET"
+    }
   }
   raw_disk {
     source = format("%s/%s.tar.gz", var.f5xc_ves_images_base_url, var.machine_image_base[var.f5xc_ce_gateway_type])

@@ -25,7 +25,8 @@ variable "f5xc_namespace" {
 }
 
 variable "f5xc_api_token" {
-  type = string
+  type      = string
+  sensitive = true
 }
 
 variable "f5xc_api_p12_file" {
