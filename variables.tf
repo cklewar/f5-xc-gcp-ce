@@ -80,12 +80,12 @@ variable "fabric_subnet_inside" {
   default = "192.168.0.128/25"
 }
 
-variable "machine_image_name" {
+variable "instance_image_name" {
   type    = string
   default = "centos7-atomic-20220721105-single-voltmesh-custom"
 }
 
-variable "machine_image_base" {
+variable "instance_image_base" {
   type = object({
     ingress_gateway        = string
     ingress_egress_gateway = string
@@ -96,17 +96,17 @@ variable "machine_image_base" {
   }
 }
 
-variable "machine_type" {
+variable "instance_type" {
   type    = string
   default = "n1-standard-4"
 }
 
-variable "machine_disk_size" {
+variable "instance_disk_size" {
   type    = string
   default = "40"
 }
 
-variable "machine_image_family" {
+variable "instance_image_family" {
   type    = string
   default = "centos7-atomic"
 }
@@ -138,7 +138,7 @@ variable "owner" {
 }
 
 locals {
-  f5xc_image_name = format("%s-%s", var.machine_image_name, var.project_suffix)
+  f5xc_image_name = format("%s-%s", var.instance_image_name, var.project_suffix)
 }
 
 provider "google" {
