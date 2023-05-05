@@ -1,25 +1,25 @@
-module "gcp_single_node_ce" {
+module "gcp_ce_single_node_single_nic_new_vpc" {
   source                 = "./modules/f5xc/ce/gcp"
   owner                  = var.owner
   gcp_region             = var.gcp_region
   ssh_username           = "centos"
-  project_name           = format("%s-%s-%s", var.project_prefix, var.project_name, var.project_suffix)
   instance_type          = var.instance_type
-  instance_image         = var.instance_image_base[var.f5xc_ce_gateway_type]
+  instance_image         = var.instance_image_base["ingress_gateway"]
   ssh_public_key         = file(var.ssh_public_key_file)
   instance_disk_size     = var.instance_disk_size
   f5xc_tenant            = var.f5xc_tenant
   f5xc_api_url           = var.f5xc_api_url
   f5xc_namespace         = var.f5xc_namespace
   f5xc_api_token         = var.f5xc_api_token
-  f5xc_token_name        = format("%s-%s-%s", var.project_prefix, var.project_name, var.project_suffix)
-  f5xc_cluster_name      = format("%s-%s-%s", var.project_prefix, var.project_name, var.project_suffix)
-  f5xc_ce_gateway_type   = var.f5xc_ce_gateway_type
+  f5xc_token_name        = format("%s-%s-%s", var.project_prefix, "ce-gcp-sn", var.project_suffix)
+  f5xc_cluster_name      = format("%s-%s-%s", var.project_prefix, "ce-gcp-sn", var.project_suffix)
+  f5xc_cluster_labels    = {}
   f5xc_cluster_latitude  = var.cluster_latitude
   f5xc_cluster_longitude = var.cluster_longitude
+  f5xc_ce_gateway_type   = "ingress_gateway"
   f5xc_ce_nodes          = {
     node0 = {
-      slo_subnet = "172.16.32.0/24", sli_subnet = "172.16.33.0/24", az = format("%s-b", var.gcp_region)
+      slo_subnet = "172.16.32.0/24", az = format("%s-b", var.gcp_region)
     }
   }
   providers = {
@@ -28,18 +28,18 @@ module "gcp_single_node_ce" {
   }
 }
 
-output "gcp_single_node_ce" {
-  value = module.gcp_single_node_ce.ce
+output "gcp_ce_single_node_single_nic_new_vpc" {
+  value = module.gcp_ce_single_node_single_nic_new_vpc.ce
 }
 
-module "gcp_multi_node_ce" {
+module "gcp_ce_multi_node_multi_nic_new_vpc" {
   source             = "./modules/f5xc/ce/gcp"
   owner              = var.owner
   gcp_region         = var.gcp_region
   ssh_username       = "centos"
   instance_type      = var.instance_type
-  instance_image     = var.instance_image_base[var.f5xc_ce_gateway_type]
   ssh_public_key     = file(var.ssh_public_key_file)
+  instance_image     = var.instance_image_base["ingress_egress_gateway"]
   instance_disk_size = var.instance_disk_size
   f5xc_tenant        = var.f5xc_tenant
   f5xc_api_url       = var.f5xc_api_url
@@ -56,9 +56,9 @@ module "gcp_multi_node_ce" {
   }
   f5xc_namespace         = var.f5xc_namespace
   f5xc_api_token         = var.f5xc_api_token
-  f5xc_token_name        = format("%s-%s-%s", var.project_prefix, var.project_name, var.project_suffix)
-  f5xc_cluster_name      = format("%s-%s-%s", var.project_prefix, var.project_name, var.project_suffix)
-  f5xc_ce_gateway_type   = var.f5xc_ce_gateway_type
+  f5xc_token_name        = format("%s-%s-%s", var.project_prefix, "gcp-ce-mn", var.project_suffix)
+  f5xc_cluster_name      = format("%s-%s-%s", var.project_prefix, "gcp-ce-mn", var.project_suffix)
+  f5xc_ce_gateway_type   = "ingress_egress_gateway"
   f5xc_cluster_latitude  = var.cluster_latitude
   f5xc_cluster_longitude = var.cluster_longitude
   providers              = {
@@ -67,6 +67,6 @@ module "gcp_multi_node_ce" {
   }
 }
 
-output "gcp_multi_node_ce" {
-  value = module.gcp_multi_node_ce.ce
+output "gcp_ce_multi_node_multi_nic_new_vpc" {
+  value = module.gcp_ce_multi_node_multi_nic_new_vpc.ce
 }
