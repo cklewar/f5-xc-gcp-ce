@@ -154,4 +154,3 @@ provider "volterra" {
   url          = var.f5xc_api_url
   alias        = "default"
 }
-
