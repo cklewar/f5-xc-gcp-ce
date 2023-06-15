@@ -137,6 +137,10 @@ variable "f5xc_ves_images_base_url" {
   default = "https://storage.googleapis.com/ves-images"
 }
 
+variable "owner" {
+  type = string
+}
+
 locals {
   cluster_labels  = var.f5xc_fleet_label != "" ? { "ves.io/fleet" = var.f5xc_fleet_label } : {}
   f5xc_image_name = format("%s-%s", var.machine_image_name, var.project_suffix)
