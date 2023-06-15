@@ -342,38 +342,43 @@ module "nat" {
   network                            = module.vpc_slo.network_name
 }
 
-module "gcp_secure_ce_multi_nic_existing_vpc" {
+module "gcp_secure_ce_single_node_multi_nic_existing_vpc" {
   source                   = "./modules/f5xc/ce/gcp"
-  is_sensitive             = false
+  owner                    = var.owner
   gcp_region               = var.gcp_region
-  project_name             = var.project_name
-  machine_type             = var.machine_type
   ssh_username             = "centos"
+  instance_type            = var.machine_type
   has_public_ip            = false
-  # machine_image            = var.machine_image_base[var.f5xc_ce_gateway_type]
-  machine_image            = google_compute_image.f5xc_ce.name
-  instance_name            = format("%s-%s-%s", var.project_prefix, var.project_name, var.project_suffix)
   ssh_public_key           = file(var.ssh_public_key_file)
-  machine_disk_size        = var.machine_disk_size
-  existing_network_outside = module.vpc_slo
+  instance_image           = google_compute_image.f5xc_ce.name
+  instance_disk_size       = var.machine_disk_size
   existing_network_inside  = module.vpc_sli
+  existing_network_outside = module.vpc_slo
   f5xc_tenant              = var.f5xc_tenant
   f5xc_api_url             = var.f5xc_api_url
   f5xc_namespace           = var.f5xc_namespace
   f5xc_api_token           = var.f5xc_api_token
   f5xc_token_name          = format("%s-%s-%s", var.project_prefix, var.project_name, var.project_suffix)
-  f5xc_fleet_label         = var.f5xc_fleet_label
-  f5xc_cluster_latitude    = var.cluster_latitude
-  f5xc_cluster_longitude   = var.cluster_longitude
-  f5xc_ce_gateway_type     = var.f5xc_ce_gateway_type
-  f5xc_is_secure_cloud_ce  = true
-  providers                = {
+  f5xc_cluster_name        = format("%s-%s-%s", var.project_prefix, var.project_name, var.project_suffix)
+  f5xc_ce_slo_subnet       = ""
+  f5xc_cluster_labels      = {}
+  f5xc_ce_nodes            = {
+    node0 = {
+      az = format("%s-b", var.gcp_region)
+    }
+  }
+  f5xc_ce_gateway_type    = "ingress_egress_gateway"
+  f5xc_cluster_latitude   = var.cluster_latitude
+  f5xc_cluster_longitude  = var.cluster_longitude
+  f5xc_is_secure_cloud_ce = true
+
+  providers = {
     google   = google.default
     volterra = volterra.default
   }
 }
 
-output "gcp_ce_multi_nic_existing_vpc" {
-  value = module.gcp_secure_ce_multi_nic_existing_vpc.ce
+output "gcp_secure_ce_single_node_multi_nic_existing_vpc" {
+  value = module.gcp_secure_ce_single_node_multi_nic_existing_vpc.ce
 }
 ```
