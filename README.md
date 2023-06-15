@@ -123,7 +123,7 @@ output "gcp_ce_single_nic_existing_vpc" {
 }
 ````
 
-## F5XC GCP Cloud CE Single NIC existing VPC module usage example
+## F5XC GCP Cloud CE Multi NIC existing VPC module usage example
 
 ````hcl
 module "gcp_ce_multi_nic_existing_vpc" {
