@@ -141,6 +141,34 @@ variable "owner" {
   type = string
 }
 
+variable "f5xc_ip_ranges_Americas_TCP" {
+  type = list(string)
+}
+
+variable "f5xc_ip_ranges_Americas_UDP" {
+  type = list(string)
+}
+
+variable "f5xc_ip_ranges_Europe_TCP" {
+  type = list(string)
+}
+
+variable "f5xc_ip_ranges_Europe_UDP" {
+  type = list(string)
+}
+
+variable "f5xc_ip_ranges_Asia_TCP" {
+  type = list(string)
+}
+
+variable "f5xc_ip_ranges_Asia_UDP" {
+  type = list(string)
+}
+
+variable "f5xc_ce_egress_ip_ranges" {
+  type = list(string)
+}
+
 locals {
   cluster_labels  = var.f5xc_fleet_label != "" ? { "ves.io/fleet" = var.f5xc_fleet_label } : {}
   f5xc_image_name = format("%s-%s", var.machine_image_name, var.project_suffix)
