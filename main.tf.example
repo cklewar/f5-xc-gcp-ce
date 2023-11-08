@@ -13,7 +13,6 @@ module "gcp_ce" {
   f5xc_api_token       = var.f5xc_api_token
   f5xc_token_name      = format("%s-%s-%s", var.project_prefix, var.project_name, var.project_suffix)
   f5xc_cluster_name    = format("%s-%s-%s", var.project_prefix, var.project_name, var.project_suffix)
-  f5xc_fleet_label     = var.f5xc_fleet_label
   f5xc_ce_slo_subnet   = "172.16.124.0/24"
   f5xc_ce_gateway_type = var.f5xc_ce_gateway_type
   f5xc_ce_nodes        = {
