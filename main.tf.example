@@ -5,7 +5,7 @@ module "gcp_ce" {
   ssh_username         = "centos"
   ssh_public_key       = file(var.ssh_public_key_file)
   instance_type        = var.machine_type
-  instance_image       = var.machine_image_name
+  instance_image       = var.machine_image_base[var.f5xc_ce_gateway_type]
   instance_disk_size   = var.machine_disk_size
   f5xc_tenant          = var.f5xc_tenant
   f5xc_api_url         = var.f5xc_api_url
