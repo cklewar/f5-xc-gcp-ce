@@ -82,7 +82,7 @@ variable "fabric_subnet_inside" {
 
 variable "machine_image_name" {
   type    = string
-  default = "centos7-atomic-20220721105-single-voltmesh-custom"
+  default = "rhel9-20230922033926-single-voltmesh" #centos7-atomic-20220721105-single-voltmesh-custom"
 }
 
 variable "machine_image_base" {
@@ -91,8 +91,8 @@ variable "machine_image_base" {
     ingress_egress_gateway = string
   })
   default = {
-    ingress_gateway        = "centos7-atomic-20220721105-single-voltmesh-us"
-    ingress_egress_gateway = "centos7-atomic-20220721105-multi-voltmesh-us"
+    ingress_gateway        = "rhel9-20230922033926-single-voltmesh" #"centos7-atomic-20220721105-single-voltmesh-us"
+    ingress_egress_gateway = "rhel9-20230922033926-multi-voltmesh" #centos7-atomic-20220721105-multi-voltmesh-us"
   }
 }
 
