@@ -1,11 +1,3 @@
-terraform {
-  required_providers {
-    restful = {
-      source  = "magodo/restful"
-      version = "0.14.0"
-    }
-  }
-}
 variable "project_prefix" {
   type        = string
   description = "prefix string put in front of string"
