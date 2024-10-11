@@ -12,8 +12,14 @@ terraform {
   required_providers {
     volterra = {
       source = "volterraedge/volterra"
-      version = "= 0.11.24"
+      version = "= 0.11.37"
     }
+
+     restful = {
+      source  = "magodo/restful"
+      version = ">= 0.16.1"
+    }
+
     google = {
       source = "hashicorp/google"
       version = ">= 4.48.0"
